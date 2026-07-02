@@ -1,0 +1,65 @@
+{
+  "task": "langid",
+  "model": "fasttext_lid176",
+  "model_type": "fasttext",
+  "model_id": "datasets/langid/lid.176.bin",
+  "dataset": "gold_sets/langid_gold.csv",
+  "n_rows": 40,
+  "n_hard_rows": 20,
+  "parse_failures": null,
+  "metrics_overall": {
+    "accuracy": 0.5,
+    "macro_f1": 0.3851
+  },
+  "metrics_hard_subset": {
+    "accuracy": 0.0,
+    "n": 20
+  },
+  "per_class_accuracy": {
+    "english": 1.0,
+    "urdu": 1.0,
+    "roman_urdu": 0.0,
+    "mixed": 0.0
+  },
+  "confusion_matrix": {
+    "english": {
+      "english": 10,
+      "urdu": 0,
+      "roman_urdu": 0,
+      "mixed": 0,
+      "other": 0
+    },
+    "urdu": {
+      "english": 0,
+      "urdu": 10,
+      "roman_urdu": 0,
+      "mixed": 0,
+      "other": 0
+    },
+    "roman_urdu": {
+      "english": 7,
+      "urdu": 0,
+      "roman_urdu": 0,
+      "mixed": 0,
+      "other": 3
+    },
+    "mixed": {
+      "english": 10,
+      "urdu": 0,
+      "roman_urdu": 0,
+      "mixed": 0,
+      "other": 0
+    }
+  },
+  "roman_urdu_called_english": 7,
+  "mixed_called_english": 10,
+  "latency_ms": {
+    "mean": 0.0,
+    "median": 0.0,
+    "p95": 0.0,
+    "total_s": 0.0
+  },
+  "note": "Download lid.176.bin from official fastText releases before running.",
+  "timestamp": "20260701_194130",
+  "per_row_csv": "results/langid_fasttext_lid176_langid_gold_20260701_194130.csv"
+}

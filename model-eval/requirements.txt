@@ -1,0 +1,29 @@
+# =============================================================================
+# Eval virtualenv (venv/) — Python 3.13
+#   python3 -m venv venv
+#   venv/bin/python -m pip install -r requirements.txt
+#   venv/bin/python -m spacy download en_core_web_sm
+# =============================================================================
+openai==2.44.0
+pandas==3.0.3
+scikit-learn==1.9.0
+seqeval==1.2.2
+spacy==3.8.14
+click==8.4.2            # spaCy CLI dep (not always pulled in by typer on 3.13)
+requests==2.34.2
+tqdm==4.68.3
+PyYAML==6.0.3
+langdetect==1.0.9
+fasttext-predict        # prebuilt wheel; loads lid.176.bin (native `fasttext` won't build on 3.13)
+ucimlrepo==0.0.7
+
+# -----------------------------------------------------------------------------
+# NOT in this venv (kept in the conda-base env that ships with vLLM):
+#   torch, transformers  -> needed by the sentiment XLM-R baseline
+#   vllm                 -> serves the Qwen LLMs (`vllm serve <model> --port 8000`)
+# Run eval_sentiment.py with the conda-base python:
+#   /home/temp/miniconda3/bin/python scripts/eval_sentiment.py --model xlmr_sentiment_baseline
+#
+# Also required once, not via pip:
+#   datasets/langid/lid.176.bin  (download from fastText official releases)
+# -----------------------------------------------------------------------------

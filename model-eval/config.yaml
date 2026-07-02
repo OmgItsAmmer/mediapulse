@@ -1,0 +1,97 @@
+# =============================================================================
+# model-eval configuration
+# Social media monitoring platform (Pakistani digital media) — NLP model eval.
+# Tasks: 4.1 NER · 4.2 Sentiment · 4.4 Language ID.
+# Focus: accuracy on the HARD subset (Roman Urdu / sarcasm / code-switched).
+# =============================================================================
+#
+# vLLM serves ONE LLM at a time on the single RTX 3090 (24 GB). Start it before
+# running an LLM eval, e.g.:
+#
+#   vllm serve Qwen/Qwen3-8B --port 8000 --max-model-len 8192 --gpu-memory-utilization 0.90
+#
+# ...or just use scripts/serve_and_eval.sh, which serves + waits + evals + tears down.
+# If a model OOMs on 24 GB: lower --max-model-len, or serve a quantized (-AWQ) build.
+# -----------------------------------------------------------------------------
+
+vllm_base_url: http://localhost:8000/v1
+vllm_api_key: EMPTY          # vLLM ignores this, but the openai client needs a non-empty string.
+
+# Escalation: if the fast/baseline path scores below this on a row, escalate to
+# the heavier LLM path. (Only ner + sentiment specified for now.)
+escalation_thresholds:
+  ner: 0.6
+  sentiment: 0.6
+
+# Generation defaults for vLLM chat completions (deterministic for eval).
+vllm_gen:
+  temperature: 0.0
+  max_tokens: 512
+  request_timeout_s: 60
+
+paths:
+  datasets: datasets
+  gold_sets: gold_sets
+  results: results
+  logs: logs
+
+# -----------------------------------------------------------------------------
+# Models to evaluate per task. PLACEHOLDERS — prune/adjust per module.
+#   type: spacy | hf_pipeline | fasttext | langdetect | vllm
+#   vllm models must be served (see header) before their eval runs.
+#
+# Qwen LLM: using Qwen3-8B only for now (8B, not the Qwen3.5-9B).
+# Qwen3.5 has no 8B variant (smallest above 4B is 9B, ~18GB, tight on 24GB), so the
+# 3-vs-3.5 comparison is deferred. To re-enable it later, uncomment the qwen3_5 blocks.
+# -----------------------------------------------------------------------------
+models:
+  ner:
+    - name: spacy_en_core_web_sm
+      type: spacy
+      model_id: en_core_web_sm
+      note: English-only baseline — no Urdu/Roman Urdu support (expected to be weak).
+    - name: qwen3_4b_instruct
+      type: vllm
+      model_id: Qwen/Qwen3-4B-Instruct-2507
+      note: Already cached locally (~7.6GB); fits easily on 24GB. Used for quick vLLM smoke tests.
+    - name: qwen3_8b
+      type: vllm
+      model_id: Qwen/Qwen3-8B
+    # - name: qwen3_5
+    #   type: vllm
+    #   model_id: Qwen/Qwen3.5-9B
+
+  sentiment:
+    - name: xlmr_sentiment_baseline
+      type: hf_pipeline
+      model_id: cardiffnlp/twitter-xlm-roberta-base-sentiment
+      note: Multilingual XLM-R sentiment head (resource-efficient fast path). Runs on conda-base torch.
+    - name: qwen3_4b_instruct
+      type: vllm
+      model_id: Qwen/Qwen3-4B-Instruct-2507
+      note: Already cached locally (~7.6GB). Used for the current sentiment run.
+    - name: qwen3_8b
+      type: vllm
+      model_id: Qwen/Qwen3-8B
+    # - name: qwen3_5
+    #   type: vllm
+    #   model_id: Qwen/Qwen3.5-9B
+
+  langid:
+    - name: fasttext_lid176
+      type: fasttext
+      model_id: datasets/langid/lid.176.bin
+      note: Download lid.176.bin from official fastText releases before running.
+    - name: langdetect
+      type: langdetect
+      model_id: langdetect
+    - name: qwen3_4b_instruct
+      type: vllm
+      model_id: Qwen/Qwen3-4B-Instruct-2507
+      note: Already cached locally (~7.6GB). Used for the current langid run.
+    - name: qwen3_8b
+      type: vllm
+      model_id: Qwen/Qwen3-8B
+    # - name: qwen3_5
+    #   type: vllm
+    #   model_id: Qwen/Qwen3.5-9B

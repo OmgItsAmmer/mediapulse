@@ -1,0 +1,71 @@
+{
+  "task": "ner",
+  "model": "spacy_en_core_web_sm",
+  "model_type": "spacy",
+  "model_id": "en_core_web_sm",
+  "dataset": "gold_sets/ner_gold.csv",
+  "n_rows": 15,
+  "n_hard_rows": 15,
+  "parse_failures": null,
+  "metrics_overall": {
+    "exact": {
+      "precision": 0.383,
+      "recall": 0.4091,
+      "f1": 0.3956,
+      "tp": 18,
+      "n_pred": 47,
+      "n_gold": 44
+    },
+    "partial": {
+      "precision": 0.4681,
+      "recall": 0.5,
+      "f1": 0.4835,
+      "tp": 22,
+      "n_pred": 47,
+      "n_gold": 44
+    },
+    "untyped_exact": {
+      "precision": 0.6383,
+      "recall": 0.6818,
+      "f1": 0.6593,
+      "tp": 30,
+      "n_pred": 47,
+      "n_gold": 44
+    }
+  },
+  "metrics_hard_subset": {
+    "exact": {
+      "precision": 0.383,
+      "recall": 0.4091,
+      "f1": 0.3956,
+      "tp": 18,
+      "n_pred": 47,
+      "n_gold": 44
+    },
+    "partial": {
+      "precision": 0.4681,
+      "recall": 0.5,
+      "f1": 0.4835,
+      "tp": 22,
+      "n_pred": 47,
+      "n_gold": 44
+    },
+    "untyped_exact": {
+      "precision": 0.6383,
+      "recall": 0.6818,
+      "f1": 0.6593,
+      "tp": 30,
+      "n_pred": 47,
+      "n_gold": 44
+    }
+  },
+  "latency_ms": {
+    "mean": 2.7,
+    "median": 2.4,
+    "p95": 3.0,
+    "total_s": 0.0
+  },
+  "note": "English-only baseline — no Urdu/Roman Urdu support (expected to be weak).",
+  "timestamp": "20260701_185326",
+  "per_row_csv": "results/ner_spacy_en_core_web_sm_ner_gold_20260701_185326.csv"
+}
