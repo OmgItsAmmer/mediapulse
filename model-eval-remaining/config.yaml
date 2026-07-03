@@ -1,0 +1,189 @@
+# =============================================================================
+# model-eval configuration
+# Social media monitoring platform (Pakistani digital media) — NLP model eval.
+# Tasks: 4.1 NER · 4.2 Sentiment · 4.4 Language ID.
+# Focus: accuracy on the HARD subset (Roman Urdu / sarcasm / code-switched).
+# =============================================================================
+#
+# vLLM serves ONE LLM at a time on the single RTX 3090 (24 GB). Start it before
+# running an LLM eval, e.g.:
+#
+#   vllm serve Qwen/Qwen3-8B --port 8000 --max-model-len 8192 --gpu-memory-utilization 0.90
+#
+# ...or just use scripts/serve_and_eval.sh, which serves + waits + evals + tears down.
+# If a model OOMs on 24 GB: lower --max-model-len, or serve a quantized (-AWQ) build.
+# -----------------------------------------------------------------------------
+
+vllm_base_url: http://localhost:8000/v1
+vllm_api_key: EMPTY          # vLLM ignores this, but the openai client needs a non-empty string.
+
+# Escalation: if the fast/baseline path scores below this on a row, escalate to
+# the heavier LLM path. (Only ner + sentiment specified for now.)
+escalation_thresholds:
+  ner: 0.6
+  sentiment: 0.6
+
+# Generation defaults for vLLM chat completions (deterministic for eval).
+vllm_gen:
+  temperature: 0.0
+  max_tokens: 512
+  request_timeout_s: 60
+
+paths:
+  datasets: datasets
+  gold_sets: gold_sets
+  results: results
+  logs: logs
+
+# -----------------------------------------------------------------------------
+# Models to evaluate per task. PLACEHOLDERS — prune/adjust per module.
+#   type: spacy | hf_pipeline | fasttext | langdetect | vllm
+#   vllm models must be served (see header) before their eval runs.
+#
+# Qwen LLM: using Qwen3-8B only for now (8B, not the Qwen3.5-9B).
+# Qwen3.5 has no 8B variant (smallest above 4B is 9B, ~18GB, tight on 24GB), so the
+# 3-vs-3.5 comparison is deferred. To re-enable it later, uncomment the qwen3_5 blocks.
+# -----------------------------------------------------------------------------
+models:
+  ner:
+    - name: spacy_en_core_web_sm
+      type: spacy
+      model_id: en_core_web_sm
+      note: English-only baseline — no Urdu/Roman Urdu support (expected to be weak).
+    - name: qwen3_4b_instruct
+      type: vllm
+      model_id: Qwen/Qwen3-4B-Instruct-2507
+      note: Already cached locally (~7.6GB); fits easily on 24GB. Used for quick vLLM smoke tests.
+    - name: qwen3_8b
+      type: vllm
+      model_id: Qwen/Qwen3-8B
+    # - name: qwen3_5
+    #   type: vllm
+    #   model_id: Qwen/Qwen3.5-9B
+
+  sentiment:
+    - name: xlmr_sentiment_baseline
+      type: hf_pipeline
+      model_id: cardiffnlp/twitter-xlm-roberta-base-sentiment
+      note: Multilingual XLM-R sentiment head (resource-efficient fast path). Runs on conda-base torch.
+    - name: qwen3_4b_instruct
+      type: vllm
+      model_id: Qwen/Qwen3-4B-Instruct-2507
+      note: Already cached locally (~7.6GB). Used for the current sentiment run.
+    - name: qwen3_8b
+      type: vllm
+      model_id: Qwen/Qwen3-8B
+    # - name: qwen3_5
+    #   type: vllm
+    #   model_id: Qwen/Qwen3.5-9B
+
+  langid:
+    - name: fasttext_lid176
+      type: fasttext
+      model_id: datasets/langid/lid.176.bin
+      note: Download lid.176.bin from official fastText releases before running.
+    - name: langdetect
+      type: langdetect
+      model_id: langdetect
+    - name: qwen3_4b_instruct
+      type: vllm
+      model_id: Qwen/Qwen3-4B-Instruct-2507
+      note: Already cached locally (~7.6GB). Used for the current langid run.
+    - name: qwen3_8b
+      type: vllm
+      model_id: Qwen/Qwen3-8B
+    # - name: qwen3_5
+    #   type: vllm
+    #   model_id: Qwen/Qwen3.5-9B
+
+  # --- 4.3 Topic Modeling / Clustering -----------------------------------------
+  # Unsupervised. ARI/NMI are measured on the small labelled gold set
+  # (gold_sets/topics_gold.csv, story_id column); fit+transform latency is measured
+  # on the full pool (datasets/topics/pool.csv). num_topics defaults to the gold
+  # story count and is a CLI arg (--num-topics).
+  #   type: gensim_lda | bertopic
+  # LDA is CPU-only  -> install into the eval venv:  venv/bin/pip install gensim
+  # BERTopic needs torch + sentence-transformers (present in conda base) plus
+  #   `pip install bertopic` (pulls umap-learn + hdbscan). Run it from conda base:
+  #   conda run -n base python scripts/eval_topics.py --model bertopic_mpnet
+  topics:
+    - name: lda_gensim
+      type: gensim_lda
+      model_id: gensim-lda
+      note: Bag-of-words LDA baseline (CPU, gensim). num_topics defaults to gold story count.
+    - name: bertopic_mpnet
+      type: bertopic
+      model_id: paraphrase-multilingual-mpnet-base-v2
+      note: >-
+        BERTopic + multilingual MPNet sentence embeddings. Uses a KMeans(k) cluster
+        backend for a fair head-to-head vs LDA at the same num_topics (default;
+        --bertopic-cluster hdbscan enables auto topic discovery for the pool).
+
+  # --- 4.5 Summarization -------------------------------------------------------
+  # Input  = topic clusters (datasets/summarization/clusters.csv, one blob/story,
+  #          grouped from topics_gold.csv by story_id -> keeps topics->summaries
+  #          consistent end to end).
+  # Scored = vs gold_sets/summarization_gold.csv with ROUGE-L + BERTScore
+  #          (multilingual model, since source posts are code-switched).
+  # Runtime: eval_summarization.py runs in CONDA BASE (BERTScore needs torch +
+  #          transformers; openai client for the vLLM path). Install into base:
+  #          pip install sumy rouge-score bert-score nltk
+  #   type: textrank | vllm
+  # TextRank uses `sumy` (CPU) — gensim's summarize module was REMOVED in gensim 4.0,
+  # so sumy is the maintained extractive baseline.
+  # The vLLM model needs Qwen3-4B served; run via serve_and_eval.sh with
+  #   VENV_PY=<conda-base python> so the eval side has torch for BERTScore. Serve with a
+  #   lower GPU_MEM_UTIL (e.g. 0.6) so BERTScore's model also fits on the 24 GB card.
+  summarization:
+    - name: textrank_sumy
+      type: textrank
+      model_id: sumy-textrank
+      note: Extractive TextRank baseline (sumy, CPU). No GPU / no vLLM needed.
+    - name: qwen3_4b_instruct
+      type: vllm
+      model_id: Qwen/Qwen3-4B-Instruct-2507
+      note: Abstractive summary via vLLM chat completion. Already cached locally (~7.6GB).
+
+  # --- 4.6 Speech-to-Text (live-stream audio) ----------------------------------
+  # BLOCKED until gold audio exists (gold_sets/stt_gold.csv + datasets/stt/audio/).
+  # No public set matches the target domain (spontaneous, code-switched Urdu/English
+  # broadcast speech). FLEURS ur_PK (~1.4h) and Common Voice Urdu are READ speech,
+  # clean/monolingual — a generic sanity baseline at best, NOT broadcast. Supply
+  # 10-20 real 30-90s hand-transcribed broadcast clips (Task 1 / datasets/stt/README.md).
+  # Runtime: conda env STTLiveTransciptionVoxtralEnv (has faster-whisper + audio libs);
+  #   add jiwer:  conda run -n STTLiveTransciptionVoxtralEnv pip install jiwer
+  #   type: faster_whisper | nemo
+  stt:
+    - name: fw_small
+      type: faster_whisper
+      model_id: small
+      note: Faster-Whisper small — baseline, lowest latency / VRAM.
+    - name: fw_medium
+      type: faster_whisper
+      model_id: medium
+    - name: fw_large_v3
+      type: faster_whisper
+      model_id: large-v3
+      note: Highest accuracy; watch the real-time factor against the live-stream budget.
+    # Optional — NVIDIA NeMo (Parakeet / Canary). Heavy deps; single-GPU boxes often
+    # struggle. Uncomment only if `nemo_toolkit[asr]` imports cleanly (eval_stt.py
+    # flags it and skips gracefully if not).
+    # - name: canary_1b
+    #   type: nemo
+    #   model_id: nvidia/canary-1b
+    # - name: parakeet_tdt_1_1b
+    #   type: nemo
+    #   model_id: nvidia/parakeet-tdt-1.1b
+
+  # --- 4.9 Scene Detection -----------------------------------------------------
+  # SINGLE candidate (PySceneDetect) — a sanity check, NOT a comparison. CPU-only,
+  # so it runs alongside the GPU-bound object/face detectors and must not become a
+  # bottleneck (eval_scenes.py logs a real-time factor). No accuracy metric without
+  # hand-labelled cut points: eyeball the printed timestamps against the video.
+  # Runtime: conda base (already has cv2).  Install:  pip install scenedetect
+  #   type: pyscenedetect
+  scene_detection:
+    - name: pyscenedetect_content
+      type: pyscenedetect
+      model_id: ContentDetector
+      note: Content-aware detector (HSV frame-to-frame change). threshold ~27 default; tune per footage.

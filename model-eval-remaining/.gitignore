@@ -1,0 +1,26 @@
+# --- Python / venv ---
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# --- runtime logs ---
+logs/
+
+# --- large / regenerable data (rebuild via scripts/prepare_*.py) ---
+datasets/**/raw/
+datasets/ner/ner_public.csv
+datasets/sentiment/combined.csv
+datasets/langid/combined.csv
+# fastText model binary (download from fastText releases)
+*.bin
+
+# --- eval run artifacts: keep summaries + the report, drop per-row CSVs ---
+results/*.csv
+
+# --- OS / editor cruft ---
+.DS_Store
+.ipynb_checkpoints/
+
+# NOTE: gold_sets/*.csv, config.yaml, scripts/, requirements.txt, README.md,
+# results/*.summary.json and results/final_comparison.md ARE tracked (committed).
