@@ -1,0 +1,38 @@
+{
+  "task": "summarization",
+  "model": "textrank_sumy",
+  "model_type": "textrank",
+  "model_id": "sumy-textrank",
+  "clusters": "datasets/summarization/clusters.csv",
+  "gold": "gold_sets/summarization_gold.csv",
+  "n_clusters": 6,
+  "prompt_template": null,
+  "metrics": {
+    "rougeL_mean": 0.1315,
+    "bertscore_f1_mean": 0.8535,
+    "bertscore_model": "xlm-roberta-large"
+  },
+  "factuality": {
+    "gazetteer": "NER-gold gazetteer: 71 entities",
+    "total_flagged_entities": 0,
+    "clusters_with_flags": 0,
+    "per_cluster": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": [],
+      "6": []
+    },
+    "note": "Flagged = named entity in the summary but not in the source cluster (possible hallucination). Heuristic — verify flags by hand."
+  },
+  "latency_ms": {
+    "mean": 14.1,
+    "median": 10.3,
+    "total_s": 0.1
+  },
+  "note": "Extractive TextRank baseline (sumy, CPU). No GPU / no vLLM needed.",
+  "placeholder_gold": "summarization_gold.csv references are PLACEHOLDER drafts — review/rewrite before trusting ROUGE/BERTScore.",
+  "timestamp": "20260702_165022",
+  "per_row_csv": "results/summarization_textrank_sumy_20260702_165022.csv"
+}

@@ -1,0 +1,64 @@
+{
+  "task": "scene_detection",
+  "clip": "datasets/scenes/synthetic_smoke.mp4",
+  "clip_name": "synthetic_smoke",
+  "detector": "content",
+  "threshold": 27.0,
+  "min_scene_len_s": 0.6,
+  "fps": 10.0,
+  "clip_duration_s": 15.0,
+  "n_scenes": 5,
+  "n_cuts": 4,
+  "cut_points_s": [
+    3.0,
+    6.0,
+    9.0,
+    12.0
+  ],
+  "scenes": [
+    {
+      "scene": 1,
+      "start_s": 0.0,
+      "end_s": 3.0,
+      "start_tc": "00:00:00.000",
+      "end_tc": "00:00:03.000",
+      "length_s": 3.0
+    },
+    {
+      "scene": 2,
+      "start_s": 3.0,
+      "end_s": 6.0,
+      "start_tc": "00:00:03.000",
+      "end_tc": "00:00:06.000",
+      "length_s": 3.0
+    },
+    {
+      "scene": 3,
+      "start_s": 6.0,
+      "end_s": 9.0,
+      "start_tc": "00:00:06.000",
+      "end_tc": "00:00:09.000",
+      "length_s": 3.0
+    },
+    {
+      "scene": 4,
+      "start_s": 9.0,
+      "end_s": 12.0,
+      "start_tc": "00:00:09.000",
+      "end_tc": "00:00:12.000",
+      "length_s": 3.0
+    },
+    {
+      "scene": 5,
+      "start_s": 12.0,
+      "end_s": 15.0,
+      "start_tc": "00:00:12.000",
+      "end_tc": "00:00:15.000",
+      "length_s": 3.0
+    }
+  ],
+  "processing_s": 0.033,
+  "real_time_factor": 0.002,
+  "note": "Single candidate (PySceneDetect) — spot-check, not an automated metric. Eyeball cut_points_s against the video and confirm/correct by hand.",
+  "timestamp": "20260702_174226"
+}

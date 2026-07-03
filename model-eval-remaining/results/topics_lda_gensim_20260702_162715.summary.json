@@ -1,0 +1,153 @@
+{
+  "task": "topics",
+  "model": "lda_gensim",
+  "model_type": "gensim_lda",
+  "model_id": "gensim-lda",
+  "embedding_model": null,
+  "bertopic_cluster": null,
+  "gold_set": "gold_sets/topics_gold.csv",
+  "n_gold_posts": 40,
+  "n_gold_stories": 6,
+  "num_topics": 6,
+  "metrics": {
+    "ARI": 0.0764,
+    "NMI": 0.3237
+  },
+  "fragmentation": {
+    "n_gold_stories": 6,
+    "n_predicted_topics": 6,
+    "n_fragmented_stories": 6,
+    "n_merged_topics": 6,
+    "cluster_purity": 0.45,
+    "per_story": {
+      "1": {
+        "n_posts": 7,
+        "predicted_topics": [
+          1,
+          3,
+          4,
+          5
+        ],
+        "n_topics": 4
+      },
+      "2": {
+        "n_posts": 7,
+        "predicted_topics": [
+          1,
+          2,
+          3
+        ],
+        "n_topics": 3
+      },
+      "3": {
+        "n_posts": 7,
+        "predicted_topics": [
+          0,
+          2,
+          3,
+          5
+        ],
+        "n_topics": 4
+      },
+      "4": {
+        "n_posts": 6,
+        "predicted_topics": [
+          0,
+          1,
+          4
+        ],
+        "n_topics": 3
+      },
+      "5": {
+        "n_posts": 7,
+        "predicted_topics": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "n_topics": 4
+      },
+      "6": {
+        "n_posts": 6,
+        "predicted_topics": [
+          1,
+          2,
+          4,
+          5
+        ],
+        "n_topics": 4
+      }
+    },
+    "per_topic": {
+      "0": {
+        "n_posts": 5,
+        "gold_stories": [
+          3,
+          4,
+          5
+        ],
+        "n_stories": 3
+      },
+      "1": {
+        "n_posts": 8,
+        "gold_stories": [
+          1,
+          2,
+          4,
+          5,
+          6
+        ],
+        "n_stories": 5
+      },
+      "2": {
+        "n_posts": 7,
+        "gold_stories": [
+          2,
+          3,
+          5,
+          6
+        ],
+        "n_stories": 4
+      },
+      "3": {
+        "n_posts": 10,
+        "gold_stories": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "n_stories": 4
+      },
+      "4": {
+        "n_posts": 6,
+        "gold_stories": [
+          1,
+          4,
+          6
+        ],
+        "n_stories": 3
+      },
+      "5": {
+        "n_posts": 4,
+        "gold_stories": [
+          1,
+          3,
+          6
+        ],
+        "n_stories": 3
+      }
+    }
+  },
+  "latency": {
+    "gold_fit_transform_s": 0.025,
+    "pool_fit_transform_s": 7.543,
+    "pool_n_docs": 22646,
+    "pool_capped": false
+  },
+  "note": "Bag-of-words LDA baseline (CPU, gensim). num_topics defaults to gold story count.",
+  "placeholder_gold": "topics_gold.csv is PLACEHOLDER — expand before trusting numbers.",
+  "timestamp": "20260702_162715",
+  "per_row_csv": "results/topics_lda_gensim_20260702_162715.csv"
+}

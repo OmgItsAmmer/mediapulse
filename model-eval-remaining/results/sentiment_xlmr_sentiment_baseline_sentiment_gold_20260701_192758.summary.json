@@ -1,0 +1,43 @@
+{
+  "task": "sentiment",
+  "model": "xlmr_sentiment_baseline",
+  "model_type": "hf_pipeline",
+  "model_id": "cardiffnlp/twitter-xlm-roberta-base-sentiment",
+  "dataset": "gold_sets/sentiment_gold.csv",
+  "n_rows": 30,
+  "n_hard_rows": 17,
+  "parse_failures": null,
+  "metrics_overall": {
+    "accuracy": 0.5333,
+    "macro_f1": 0.6002,
+    "per_class_f1": {
+      "positive": 0.381,
+      "negative": 0.5625,
+      "neutral": 0.8571
+    }
+  },
+  "metrics_hard_subset": {
+    "accuracy": 0.2941,
+    "macro_f1": 0.1515,
+    "n": 17
+  },
+  "by_lang_accuracy": {
+    "roman_urdu": {
+      "accuracy": 0.6111,
+      "n": 18
+    },
+    "code_switched": {
+      "accuracy": 0.4167,
+      "n": 12
+    }
+  },
+  "latency_ms": {
+    "mean": 7.3,
+    "median": 2.2,
+    "p95": 2.7,
+    "total_s": 0.2
+  },
+  "note": "Multilingual XLM-R sentiment head (resource-efficient fast path). Runs on conda-base torch.",
+  "timestamp": "20260701_192758",
+  "per_row_csv": "results/sentiment_xlmr_sentiment_baseline_sentiment_gold_20260701_192758.csv"
+}

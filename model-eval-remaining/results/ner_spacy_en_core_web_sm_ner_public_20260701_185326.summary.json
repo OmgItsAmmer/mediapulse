@@ -1,0 +1,46 @@
+{
+  "task": "ner",
+  "model": "spacy_en_core_web_sm",
+  "model_type": "spacy",
+  "model_id": "en_core_web_sm",
+  "dataset": "datasets/ner/ner_public.csv",
+  "n_rows": 15,
+  "n_hard_rows": 0,
+  "parse_failures": null,
+  "metrics_overall": {
+    "exact": {
+      "precision": 0.0333,
+      "recall": 0.025,
+      "f1": 0.0286,
+      "tp": 1,
+      "n_pred": 30,
+      "n_gold": 40
+    },
+    "partial": {
+      "precision": 0.0667,
+      "recall": 0.05,
+      "f1": 0.0571,
+      "tp": 2,
+      "n_pred": 30,
+      "n_gold": 40
+    },
+    "untyped_exact": {
+      "precision": 0.0333,
+      "recall": 0.025,
+      "f1": 0.0286,
+      "tp": 1,
+      "n_pred": 30,
+      "n_gold": 40
+    }
+  },
+  "metrics_hard_subset": null,
+  "latency_ms": {
+    "mean": 3.1,
+    "median": 2.9,
+    "p95": 4.3,
+    "total_s": 0.0
+  },
+  "note": "English-only baseline — no Urdu/Roman Urdu support (expected to be weak).",
+  "timestamp": "20260701_185326",
+  "per_row_csv": "results/ner_spacy_en_core_web_sm_ner_public_20260701_185326.csv"
+}

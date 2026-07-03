@@ -1,0 +1,46 @@
+{
+  "task": "ner",
+  "model": "qwen3_4b_instruct",
+  "model_type": "vllm",
+  "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+  "dataset": "datasets/ner/ner_public.csv",
+  "n_rows": 15,
+  "n_hard_rows": 0,
+  "parse_failures": 0,
+  "metrics_overall": {
+    "exact": {
+      "precision": 0.5833,
+      "recall": 0.7,
+      "f1": 0.6364,
+      "tp": 28,
+      "n_pred": 48,
+      "n_gold": 40
+    },
+    "partial": {
+      "precision": 0.7292,
+      "recall": 0.875,
+      "f1": 0.7955,
+      "tp": 35,
+      "n_pred": 48,
+      "n_gold": 40
+    },
+    "untyped_exact": {
+      "precision": 0.5833,
+      "recall": 0.7,
+      "f1": 0.6364,
+      "tp": 28,
+      "n_pred": 48,
+      "n_gold": 40
+    }
+  },
+  "metrics_hard_subset": null,
+  "latency_ms": {
+    "mean": 1202.6,
+    "median": 1167.7,
+    "p95": 2247.6,
+    "total_s": 18.0
+  },
+  "note": "Already cached locally (~7.6GB); fits easily on 24GB. Used for quick vLLM smoke tests.",
+  "timestamp": "20260701_190211",
+  "per_row_csv": "results/ner_qwen3_4b_instruct_ner_public_20260701_190211.csv"
+}

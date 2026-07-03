@@ -1,0 +1,71 @@
+{
+  "task": "ner",
+  "model": "qwen3_4b_instruct",
+  "model_type": "vllm",
+  "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+  "dataset": "gold_sets/ner_gold.csv",
+  "n_rows": 15,
+  "n_hard_rows": 15,
+  "parse_failures": 0,
+  "metrics_overall": {
+    "exact": {
+      "precision": 0.7959,
+      "recall": 0.8864,
+      "f1": 0.8387,
+      "tp": 39,
+      "n_pred": 49,
+      "n_gold": 44
+    },
+    "partial": {
+      "precision": 0.8163,
+      "recall": 0.9091,
+      "f1": 0.8602,
+      "tp": 40,
+      "n_pred": 49,
+      "n_gold": 44
+    },
+    "untyped_exact": {
+      "precision": 0.8571,
+      "recall": 0.9545,
+      "f1": 0.9032,
+      "tp": 42,
+      "n_pred": 49,
+      "n_gold": 44
+    }
+  },
+  "metrics_hard_subset": {
+    "exact": {
+      "precision": 0.7959,
+      "recall": 0.8864,
+      "f1": 0.8387,
+      "tp": 39,
+      "n_pred": 49,
+      "n_gold": 44
+    },
+    "partial": {
+      "precision": 0.8163,
+      "recall": 0.9091,
+      "f1": 0.8602,
+      "tp": 40,
+      "n_pred": 49,
+      "n_gold": 44
+    },
+    "untyped_exact": {
+      "precision": 0.8571,
+      "recall": 0.9545,
+      "f1": 0.9032,
+      "tp": 42,
+      "n_pred": 49,
+      "n_gold": 44
+    }
+  },
+  "latency_ms": {
+    "mean": 1136.5,
+    "median": 1054.1,
+    "p95": 1669.9,
+    "total_s": 17.0
+  },
+  "note": "Already cached locally (~7.6GB); fits easily on 24GB. Used for quick vLLM smoke tests.",
+  "timestamp": "20260701_190154",
+  "per_row_csv": "results/ner_qwen3_4b_instruct_ner_gold_20260701_190154.csv"
+}

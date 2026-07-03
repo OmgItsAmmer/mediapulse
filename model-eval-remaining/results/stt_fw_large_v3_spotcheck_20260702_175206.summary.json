@@ -1,0 +1,36 @@
+{
+  "task": "stt",
+  "model": "fw_large_v3",
+  "model_type": "faster_whisper",
+  "model_id": "large-v3",
+  "device": "cpu",
+  "compute_type": "int8",
+  "beam_size": 5,
+  "forced_language": null,
+  "gold": "gold_sets/stt_gold.csv",
+  "n_clips": 1,
+  "wer_overall": null,
+  "cer_overall": null,
+  "by_language": {
+    "urdu": null,
+    "english": null,
+    "mixed": null
+  },
+  "real_time_factor": {
+    "mean": 0.712,
+    "median": 0.712,
+    "max": 0.712,
+    "note": "processing_time / audio_duration; <1.0 = faster than real time."
+  },
+  "audio_seconds_total": 90.0,
+  "processing_seconds_total": 64.0,
+  "vram_mb": {
+    "before_load": 0,
+    "peak": 0,
+    "model_delta_est": null,
+    "note": "per-PID nvidia-smi; delta ~= this model's footprint even on a shared GPU."
+  },
+  "note": "Highest accuracy; watch the real-time factor against the live-stream budget.",
+  "timestamp": "20260702_175206",
+  "per_row_csv": "results/stt_fw_large_v3_spotcheck_20260702_175206.csv"
+}

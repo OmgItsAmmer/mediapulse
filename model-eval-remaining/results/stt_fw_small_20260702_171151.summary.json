@@ -1,0 +1,40 @@
+{
+  "task": "stt",
+  "model": "fw_small",
+  "model_type": "faster_whisper",
+  "model_id": "small",
+  "device": "cuda",
+  "compute_type": "float16",
+  "beam_size": 5,
+  "forced_language": null,
+  "gold": "gold_sets/stt_gold_fleurs_ur_pk.csv",
+  "n_clips": 20,
+  "wer_overall": 1.6131,
+  "cer_overall": 0.7981,
+  "by_language": {
+    "urdu": {
+      "n": 20,
+      "wer": 1.6131,
+      "cer": 0.7981
+    },
+    "english": null,
+    "mixed": null
+  },
+  "real_time_factor": {
+    "mean": 0.049,
+    "median": 0.042,
+    "max": 0.149,
+    "note": "processing_time / audio_duration; <1.0 = faster than real time."
+  },
+  "audio_seconds_total": 196.1,
+  "processing_seconds_total": 9.7,
+  "vram_mb": {
+    "before_load": 0,
+    "peak": 978,
+    "model_delta_est": 978,
+    "note": "per-PID nvidia-smi; delta ~= this model's footprint even on a shared GPU."
+  },
+  "note": "Faster-Whisper small — baseline, lowest latency / VRAM.",
+  "timestamp": "20260702_171151",
+  "per_row_csv": "results/stt_fw_small_20260702_171151.csv"
+}

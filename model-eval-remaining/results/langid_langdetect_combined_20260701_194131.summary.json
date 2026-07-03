@@ -1,0 +1,65 @@
+{
+  "task": "langid",
+  "model": "langdetect",
+  "model_type": "langdetect",
+  "model_id": "langdetect",
+  "dataset": "datasets/langid/combined.csv",
+  "n_rows": 2000,
+  "n_hard_rows": 1000,
+  "parse_failures": null,
+  "metrics_overall": {
+    "accuracy": 0.4855,
+    "macro_f1": 0.2463
+  },
+  "metrics_hard_subset": {
+    "accuracy": 0.0,
+    "n": 1000
+  },
+  "per_class_accuracy": {
+    "english": null,
+    "urdu": 0.971,
+    "roman_urdu": 0.0,
+    "mixed": null
+  },
+  "confusion_matrix": {
+    "english": {
+      "english": 0,
+      "urdu": 0,
+      "roman_urdu": 0,
+      "mixed": 0,
+      "other": 0
+    },
+    "urdu": {
+      "english": 0,
+      "urdu": 971,
+      "roman_urdu": 0,
+      "mixed": 0,
+      "other": 29
+    },
+    "roman_urdu": {
+      "english": 172,
+      "urdu": 0,
+      "roman_urdu": 0,
+      "mixed": 0,
+      "other": 828
+    },
+    "mixed": {
+      "english": 0,
+      "urdu": 0,
+      "roman_urdu": 0,
+      "mixed": 0,
+      "other": 0
+    }
+  },
+  "roman_urdu_called_english": 172,
+  "mixed_called_english": 0,
+  "latency_ms": {
+    "mean": 1.3,
+    "median": 0.7,
+    "p95": 3.6,
+    "total_s": 2.6
+  },
+  "note": "",
+  "timestamp": "20260701_194131",
+  "per_row_csv": "results/langid_langdetect_combined_20260701_194131.csv"
+}

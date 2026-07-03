@@ -1,0 +1,65 @@
+{
+  "task": "langid",
+  "model": "langdetect",
+  "model_type": "langdetect",
+  "model_id": "langdetect",
+  "dataset": "gold_sets/langid_gold.csv",
+  "n_rows": 40,
+  "n_hard_rows": 20,
+  "parse_failures": null,
+  "metrics_overall": {
+    "accuracy": 0.5,
+    "macro_f1": 0.4423
+  },
+  "metrics_hard_subset": {
+    "accuracy": 0.0,
+    "n": 20
+  },
+  "per_class_accuracy": {
+    "english": 1.0,
+    "urdu": 1.0,
+    "roman_urdu": 0.0,
+    "mixed": 0.0
+  },
+  "confusion_matrix": {
+    "english": {
+      "english": 10,
+      "urdu": 0,
+      "roman_urdu": 0,
+      "mixed": 0,
+      "other": 0
+    },
+    "urdu": {
+      "english": 0,
+      "urdu": 10,
+      "roman_urdu": 0,
+      "mixed": 0,
+      "other": 0
+    },
+    "roman_urdu": {
+      "english": 0,
+      "urdu": 0,
+      "roman_urdu": 0,
+      "mixed": 0,
+      "other": 10
+    },
+    "mixed": {
+      "english": 6,
+      "urdu": 0,
+      "roman_urdu": 0,
+      "mixed": 0,
+      "other": 4
+    }
+  },
+  "roman_urdu_called_english": 0,
+  "mixed_called_english": 6,
+  "latency_ms": {
+    "mean": 3.6,
+    "median": 0.9,
+    "p95": 4.2,
+    "total_s": 0.1
+  },
+  "note": "",
+  "timestamp": "20260701_194130",
+  "per_row_csv": "results/langid_langdetect_langid_gold_20260701_194130.csv"
+}

@@ -1,0 +1,48 @@
+{
+  "task": "summarization",
+  "model": "qwen3_4b_instruct",
+  "model_type": "vllm",
+  "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+  "api_model_served": "Qwen/Qwen3.5-2B",
+  "clusters": "datasets/summarization/clusters.csv",
+  "gold": "gold_sets/summarization_gold.csv",
+  "n_clusters": 6,
+  "prompt_template": "Summarize this cluster of social media posts in 2-3 sentences, in English, capturing the main story even if posts are in Roman Urdu or mixed language. Only use information present in the posts; do not invent names, numbers, or events.\n\nPosts:\n{posts}",
+  "metrics": {
+    "rougeL_mean": 0.3453,
+    "bertscore_f1_mean": 0.9235,
+    "bertscore_model": "xlm-roberta-large"
+  },
+  "factuality": {
+    "gazetteer": "NER-gold gazetteer: 71 entities",
+    "total_flagged_entities": 5,
+    "clusters_with_flags": 4,
+    "per_cluster": {
+      "1": [],
+      "2": [
+        "Lahore",
+        "Thousands"
+      ],
+      "3": [
+        "Citizens"
+      ],
+      "4": [
+        "Sindh"
+      ],
+      "5": [
+        "Users"
+      ],
+      "6": []
+    },
+    "note": "Flagged = named entity in the summary but not in the source cluster (possible hallucination). Heuristic — verify flags by hand."
+  },
+  "latency_ms": {
+    "mean": 645.7,
+    "median": 676.6,
+    "total_s": 3.9
+  },
+  "note": "Abstractive summary via vLLM chat completion. Already cached locally (~7.6GB).",
+  "placeholder_gold": "summarization_gold.csv references are PLACEHOLDER drafts — review/rewrite before trusting ROUGE/BERTScore.",
+  "timestamp": "20260702_165211",
+  "per_row_csv": "results/summarization_qwen3_4b_instruct_20260702_165211.csv"
+}

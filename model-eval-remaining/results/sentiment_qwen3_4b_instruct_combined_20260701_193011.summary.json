@@ -1,0 +1,39 @@
+{
+  "task": "sentiment",
+  "model": "qwen3_4b_instruct",
+  "model_type": "vllm",
+  "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+  "dataset": "datasets/sentiment/combined.csv",
+  "n_rows": 200,
+  "n_hard_rows": 0,
+  "parse_failures": 0,
+  "metrics_overall": {
+    "accuracy": 0.58,
+    "macro_f1": 0.5779,
+    "per_class_f1": {
+      "positive": 0.5517,
+      "negative": 0.6207,
+      "neutral": 0.5612
+    }
+  },
+  "metrics_hard_subset": null,
+  "by_lang_accuracy": {
+    "roman_urdu": {
+      "accuracy": 0.5833,
+      "n": 192
+    },
+    "urdu": {
+      "accuracy": 0.5,
+      "n": 8
+    }
+  },
+  "latency_ms": {
+    "mean": 37.2,
+    "median": 36.4,
+    "p95": 41.3,
+    "total_s": 7.4
+  },
+  "note": "Already cached locally (~7.6GB). Used for the current sentiment run.",
+  "timestamp": "20260701_193011",
+  "per_row_csv": "results/sentiment_qwen3_4b_instruct_combined_20260701_193011.csv"
+}

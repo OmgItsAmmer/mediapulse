@@ -1,0 +1,65 @@
+{
+  "task": "langid",
+  "model": "qwen3_4b_instruct",
+  "model_type": "vllm",
+  "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+  "dataset": "datasets/langid/combined.csv",
+  "n_rows": 2000,
+  "n_hard_rows": 1000,
+  "parse_failures": 0,
+  "metrics_overall": {
+    "accuracy": 0.534,
+    "macro_f1": 0.3181
+  },
+  "metrics_hard_subset": {
+    "accuracy": 0.314,
+    "n": 1000
+  },
+  "per_class_accuracy": {
+    "english": null,
+    "urdu": 0.754,
+    "roman_urdu": 0.314,
+    "mixed": null
+  },
+  "confusion_matrix": {
+    "english": {
+      "english": 0,
+      "urdu": 0,
+      "roman_urdu": 0,
+      "mixed": 0,
+      "other": 0
+    },
+    "urdu": {
+      "english": 6,
+      "urdu": 754,
+      "roman_urdu": 45,
+      "mixed": 195,
+      "other": 0
+    },
+    "roman_urdu": {
+      "english": 168,
+      "urdu": 107,
+      "roman_urdu": 314,
+      "mixed": 411,
+      "other": 0
+    },
+    "mixed": {
+      "english": 0,
+      "urdu": 0,
+      "roman_urdu": 0,
+      "mixed": 0,
+      "other": 0
+    }
+  },
+  "roman_urdu_called_english": 168,
+  "mixed_called_english": 0,
+  "latency_ms": {
+    "mean": 48.1,
+    "median": 48.9,
+    "p95": 62.3,
+    "total_s": 96.1
+  },
+  "note": "Already cached locally (~7.6GB). Used for the current langid run.",
+  "timestamp": "20260701_194219",
+  "per_row_csv": "results/langid_qwen3_4b_instruct_combined_20260701_194219.csv"
+}

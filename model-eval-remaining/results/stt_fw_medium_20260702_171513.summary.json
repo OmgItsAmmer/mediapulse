@@ -1,0 +1,40 @@
+{
+  "task": "stt",
+  "model": "fw_medium",
+  "model_type": "faster_whisper",
+  "model_id": "medium",
+  "device": "cuda",
+  "compute_type": "float16",
+  "beam_size": 5,
+  "forced_language": null,
+  "gold": "gold_sets/stt_gold_fleurs_ur_pk.csv",
+  "n_clips": 20,
+  "wer_overall": 1.1131,
+  "cer_overall": 0.5323,
+  "by_language": {
+    "urdu": {
+      "n": 20,
+      "wer": 1.1131,
+      "cer": 0.5323
+    },
+    "english": null,
+    "mixed": null
+  },
+  "real_time_factor": {
+    "mean": 0.089,
+    "median": 0.069,
+    "max": 0.43,
+    "note": "processing_time / audio_duration; <1.0 = faster than real time."
+  },
+  "audio_seconds_total": 196.1,
+  "processing_seconds_total": 18.2,
+  "vram_mb": {
+    "before_load": 0,
+    "peak": 2226,
+    "model_delta_est": 2226,
+    "note": "per-PID nvidia-smi; delta ~= this model's footprint even on a shared GPU."
+  },
+  "note": "",
+  "timestamp": "20260702_171513",
+  "per_row_csv": "results/stt_fw_medium_20260702_171513.csv"
+}

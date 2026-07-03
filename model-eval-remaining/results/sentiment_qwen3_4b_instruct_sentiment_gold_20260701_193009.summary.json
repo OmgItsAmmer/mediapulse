@@ -1,0 +1,43 @@
+{
+  "task": "sentiment",
+  "model": "qwen3_4b_instruct",
+  "model_type": "vllm",
+  "model_id": "Qwen/Qwen3-4B-Instruct-2507",
+  "dataset": "gold_sets/sentiment_gold.csv",
+  "n_rows": 30,
+  "n_hard_rows": 17,
+  "parse_failures": 0,
+  "metrics_overall": {
+    "accuracy": 0.9,
+    "macro_f1": 0.8682,
+    "per_class_f1": {
+      "positive": 0.8,
+      "negative": 0.9474,
+      "neutral": 0.8571
+    }
+  },
+  "metrics_hard_subset": {
+    "accuracy": 0.8824,
+    "macro_f1": 0.4778,
+    "n": 17
+  },
+  "by_lang_accuracy": {
+    "roman_urdu": {
+      "accuracy": 0.8889,
+      "n": 18
+    },
+    "code_switched": {
+      "accuracy": 0.9167,
+      "n": 12
+    }
+  },
+  "latency_ms": {
+    "mean": 41.4,
+    "median": 36.2,
+    "p95": 38.0,
+    "total_s": 1.2
+  },
+  "note": "Already cached locally (~7.6GB). Used for the current sentiment run.",
+  "timestamp": "20260701_193009",
+  "per_row_csv": "results/sentiment_qwen3_4b_instruct_sentiment_gold_20260701_193009.csv"
+}
